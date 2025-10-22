@@ -1,4 +1,4 @@
-export const config = { runtime: 'nodejs' };
+export const config = { runtime: "nodejs" };
 import { put } from '@vercel/blob';
 
 export default async function handler(req) {
