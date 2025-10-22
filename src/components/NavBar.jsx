@@ -6,7 +6,7 @@ export default function NavBar({ lang, setLang, authed, user, onLoginClick, onJo
   const t = STR[lang]
   const loc = useLocation()
   return (
-    <div className="fixed top-0 left-0 right-0 z-40 backdrop-glass border-b border-white/10">
+    <div className="fixed top-0 left-0 right-0 z-40 backdrop-glass border-b border-black/10">
       <div className="mx-auto max-w-6xl px-4 h-14 flex items-center justify-between">
         <div className="flex items-center gap-6">
           <div className="font-run text-xl tracking-wide">{t.brand}</div>
@@ -30,8 +30,8 @@ export default function NavBar({ lang, setLang, authed, user, onLoginClick, onJo
           </div>
           {!authed && (
             <div className="ml-2 flex items-center gap-2">
-              <button onClick={onLoginClick} className="px-3 py-1 rounded-full bg-white/20">Member Login</button>
-              <button onClick={onJoinClick} className="px-3 py-1 rounded-full bg-white/20">Join Club</button>
+              <button onClick={onLoginClick} className="px-3 py-1 rounded-full bg-black/5">Member Login</button>
+              <button onClick={onJoinClick} className="px-3 py-1 rounded-full bg-black/5">Join Club</button>
             </div>
           )}
         </div>

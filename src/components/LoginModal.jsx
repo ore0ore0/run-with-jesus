@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import Modal from './Modal.jsx'
 import { STR } from '../i18n.js'
-import { loginUser } from '../mockServer.js'
+import { login } from '../mockServer.js'
 
 export default function LoginModal({ open, onClose, lang='en', onAuthed, onReset }) {
   const t = STR[lang]
@@ -14,14 +14,15 @@ export default function LoginModal({ open, onClose, lang='en', onAuthed, onReset
     e.preventDefault()
     setError('')
     setLoading(true)
-    const res = await loginUser({ name, password: pw })
-    setLoading(false)
-    if (!res.ok) {
-      setError(res.error === 'not-found' ? 'User not found' : 'Incorrect password')
-      return
+    try {
+      const res = await login({ name, password: pw })
+      onAuthed?.(res.user)
+      onClose()
+    } catch (err) {
+      setError('Invalid username or password')
+    } finally {
+      setLoading(false)
     }
-    onAuthed?.(res.user)
-    onClose()
   }
 
   return (
@@ -33,11 +34,11 @@ export default function LoginModal({ open, onClose, lang='en', onAuthed, onReset
         </div>
         <div className="flex flex-col">
           <label className="mb-2 text-sm font-medium">{t.username}</label>
-          <input className="border rounded-md p-3 mb-4 bg-white/10" required value={name} onChange={(e)=>setName(e.target.value)} />
+          <input className="border rounded-md p-3 mb-4 bg-white" required value={name} onChange={(e)=>setName(e.target.value)} />
           <label className="mt-2 mb-2 text-sm font-medium">{t.password}</label>
-          <input type="password" className="border rounded-md p-3 mb-4 bg-white/10" required value={pw} onChange={(e)=>setPw(e.target.value)} />
+          <input type="password" className="border rounded-md p-3 mb-4 bg-white" required value={pw} onChange={(e)=>setPw(e.target.value)} />
           {error && <div className="text-errorRed text-sm mb-2">{error}</div>}
-          <button type="submit" disabled={loading} className="w-full py-3 rounded-md font-semibold bg-white/20">
+          <button type="submit" disabled={loading} className="w-full py-3 rounded-md font-semibold bg-black/5">
             {loading ? 'Checking…' : t.continue}
           </button>
           <button type="button" onClick={onReset} className="mt-3 underline text-sm self-start">{t.forgotPassword}</button>

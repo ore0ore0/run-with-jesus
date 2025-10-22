@@ -16,9 +16,9 @@ export default function UploadModal({ open, onClose, lang='en', onUploaded }) {
     if (!f) return
     setLoading(true)
     const caption = tab === 'en' ? captionEN : captionKR
-    const res = await uploadPhoto({ file: f, caption })
+    await uploadPhoto({ file: f, caption })
     setLoading(false)
-    onUploaded?.(res)
+    onUploaded?.()
     onClose()
   }
 
@@ -36,17 +36,17 @@ export default function UploadModal({ open, onClose, lang='en', onUploaded }) {
           </div>
           <div>
             <div className="flex gap-2 mb-2">
-              <button onClick={()=>setTab('en')} className={`px-3 py-1 rounded-full border ${tab==='en'?'bg-white/20':'bg-transparent'}`}>{t.english}</button>
-              <button onClick={()=>setTab('kr')} className={`px-3 py-1 rounded-full border ${tab==='kr'?'bg-white/20':'bg-transparent'}`}>{t.korean}</button>
+              <button onClick={()=>setTab('en')} className={`px-3 py-1 rounded-full border ${tab==='en'?'bg-black/5':'bg-transparent'}`}>{t.english}</button>
+              <button onClick={()=>setTab('kr')} className={`px-3 py-1 rounded-full border ${tab==='kr'?'bg-black/5':'bg-transparent'}`}>{t.korean}</button>
             </div>
             <textarea
               placeholder={t.caption}
-              className="w-full h-24 rounded-md border p-3 bg-white/10"
+              className="w-full h-24 rounded-md border p-3 bg-white"
               value={tab==='en'?captionEN:captionKR}
               onChange={(e)=> tab==='en'?setCaptionEN(e.target.value):setCaptionKR(e.target.value)}
             />
           </div>
-          <button onClick={handleUpload} disabled={loading} className="w-full py-3 rounded-md font-semibold" style={{ backgroundColor: '#FF4500', color: '#111' }}>
+          <button onClick={handleUpload} disabled={loading} className="w-full py-3 rounded-md font-semibold bg-[#FF4500] text-white">
             {loading ? 'Uploading…' : t.upload}
           </button>
         </div>

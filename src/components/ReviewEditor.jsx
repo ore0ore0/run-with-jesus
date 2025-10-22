@@ -17,7 +17,7 @@ export default function ReviewEditor({ lang = "en", onSave }) {
         {lang === "en" ? "Write your review" : "리뷰 작성"}
       </h3>
       <textarea
-        className="border rounded-md p-3 w-full h-40 bg-white/10"
+        className="border rounded-md p-3 w-full h-40 bg-white"
         placeholder={lang === "en" ? "Start writing..." : "리뷰를 작성하세요..."}
         value={text}
         onChange={(e) => setText(e.target.value)}
@@ -26,7 +26,7 @@ export default function ReviewEditor({ lang = "en", onSave }) {
         <button
           type="button"
           onClick={handleSave}
-          className="px-4 py-2 rounded-md font-semibold bg-white/20"
+          className="px-4 py-2 rounded-md font-semibold bg-black/5"
         >
           {lang === "en" ? "Save" : "저장"}
         </button>

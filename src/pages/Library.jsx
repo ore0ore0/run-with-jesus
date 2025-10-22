@@ -26,13 +26,12 @@ export default function Library({ lang='en' }) {
   return (
     <div className="pt-16 mx-auto max-w-6xl px-4">
       <div className="grid grid-cols-1 md:grid-cols-[2fr_minmax(0,3fr)] gap-0">
-        <section className="run-bg p-6 font-run">
+        <section className="p-6 font-run">
           <h2 className="text-2xl font-bold mb-4">Run Schedule</h2>
           <p>Left side remains active with run identity.</p>
         </section>
-        <section className="read-bg separator p-6 font-read">
+        <section className="separator p-6 font-read">
           <h1 className="text-3xl font-bold mb-6">{t.library}</h1>
-
           <div className="form-shell mb-6">
             <div className="form-title mb-4">
               <span className="lock-icon" aria-hidden="true"></span>
@@ -44,21 +43,20 @@ export default function Library({ lang='en' }) {
               <form onSubmit={onSubmit} className="grid grid-cols-1 gap-4">
                 <div>
                   <label className="block text-sm font-medium mb-1">{t.title}</label>
-                  <input className="border rounded-md p-3 w-full bg-white/10" value={title} onChange={(e)=>setTitle(e.target.value)} required />
+                  <input className="border rounded-md p-3 w-full bg-white" value={title} onChange={(e)=>setTitle(e.target.value)} required />
                 </div>
                 <div>
                   <label className="block text-sm font-medium mb-1">{t.author}</label>
-                  <input className="border rounded-md p-3 w-full bg-white/10" value={author} onChange={(e)=>setAuthor(e.target.value)} required />
+                  <input className="border rounded-md p-3 w-full bg.white bg-white" value={author} onChange={(e)=>setAuthor(e.target.value)} required />
                 </div>
                 <div>
                   <label className="block text-sm font-medium mb-1">{t.whyBook}</label>
-                  <textarea className="border rounded-md p-3 w-full h-24 bg-white/10" value={why} onChange={(e)=>setWhy(e.target.value)} required/>
+                  <textarea className="border rounded-md p-3 w-full h-24 bg-white" value={why} onChange={(e)=>setWhy(e.target.value)} required/>
                 </div>
-                <button className="px-4 py-2 rounded-md font-semibold bg-white/20 self-start">{t.submitSuggestion}</button>
+                <button className="px-4 py-2 rounded-md font-semibold bg-black/5 self-start">{t.submitSuggestion}</button>
               </form>
             )}
           </div>
-
           <div className="form-shell">
             <div className="form-title mb-4">
               <span className="lock-icon" aria-hidden="true"></span>
@@ -66,15 +64,14 @@ export default function Library({ lang='en' }) {
             </div>
             <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4">
               {demoShelf.map(b => (
-                <Link key={b.id} to={`/library/${b.id}`} className="block rounded-md p-3 bg-white/10 hover:bg-white/20 transition">
-                  <div className="aspect-[3/4] bg-white/10 rounded mb-2"></div>
+                <Link key={b.id} to={`/library/${b.id}`} className="block rounded-md p-3 bg-black/5 hover:bg-black/10 transition">
+                  <div className="aspect-[3/4] bg-black/5 rounded mb-2"></div>
                   <div className="text-sm font-semibold">{b.title}</div>
                   <div className="text-xs">{b.author}</div>
                 </Link>
               ))}
             </div>
           </div>
-
         </section>
       </div>
     </div>

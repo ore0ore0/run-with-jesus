@@ -2,36 +2,15 @@
 @tailwind components;
 @tailwind utilities;
 
-.backdrop-glass { backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); background-color: rgba(0,0,0,0.2); }
-.run-bg { background-image: linear-gradient(135deg, rgba(255,255,255,0.06), rgba(255,255,255,0.12)); }
-.read-bg { background-image: theme('backgroundImage.read-paper'); }
+.backdrop-glass { backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); background-color: rgba(255,255,255,0.6); }
 .separator { border-left: 1px solid #CCCCCC; }
-.modal-backdrop { background: rgba(0,0,0,0.8); }
-/* Shared form DNA */
-.form-shell { @apply p-6 rounded-lg shadow-lounge bg-white/5 border border-white/10; }
+.modal-backdrop { background: rgba(0,0,0,0.6); }
+.form-shell { @apply p-6 rounded-lg shadow-lounge bg-white border border-black/10; }
 .form-title { @apply text-lg font-semibold flex items-center gap-2; }
-.lock-icon { width: 16px; height: 16px; border: 2px solid #000000; border-radius: 2px; position: relative; }
-.lock-icon::before { content: ""; position: absolute; top: -8px; left: 2px; width: 8px; height: 8px; border: 2px solid #000000; border-bottom: none; border-radius: 8px 8px 0 0; }
+.lock-icon { width: 16px; height: 16px; border: 2px solid #000; border-radius: 2px; position: relative; }
+.lock-icon::before { content: ""; position: absolute; top: -8px; left: 2px; width: 8px; height: 8px; border: 2px solid #000; border-bottom: none; border-radius: 8px 8px 0 0; }
 
-/* Tiled background, no overlay */
 html, body { height: 100%; background-color: #FFFFFF; color: #000000; }
-
-/* Global text override (including Korean) */
-:root { --fg-primary:#000000; --fg-secondary:#000000; --fg-muted:#000000; --link:#000000; }
-body, h1, h2, h3, h4, h5, h6, p, a, span, div, li, dt, dd, figcaption, button, input, textarea, label, small, strong, em {
-  color: #000000 !important;
-}
-a:hover { text-decoration: underline; }
-/* Neutralize gray utilities */
-.text-gray-700, .text-gray-800, .text-gray-600, .text-gray-500 { color: #000000 !important; }
-/* Buttons readable when using dark backgrounds */
-button, .run-cta, .read-cta { color: #111 !important; }
-/* Cards translucency */
-.bg-white { background-color: rgba(255,255,255,0.1) !important; }
-.text-white { color: #000000 !important; } /* Keep icon text in this palette */
-
-/* Global text override */
-body, h1, h2, h3, h4, h5, h6, p, a, span, div, li, dt, dd, figcaption, button, input, textarea, label, small, strong, em {
-  color: #000000 !important;
-}
+:root { --fg-primary:#000; --fg-secondary:#000; --fg-muted:#000; --link:#000; }
+body, h1, h2, h3, h4, h5, h6, p, a, span, div, li, dt, dd, figcaption, button, input, textarea, label, small, strong, em { color: #000 !important; }
 a:hover { text-decoration: underline; }

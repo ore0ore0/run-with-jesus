@@ -11,14 +11,14 @@ export default async function handler(req) {
 
   const form = await req.formData();
   const file = form.get('file');
-  const bookId = form.get('bookId') || '';
+  const caption = form.get('caption') || '';
   if (!file || typeof file === 'string') return new Response(JSON.stringify({ error: 'No file' }), { status: 400 });
 
-  const filename = `reviews/${bookId}-${crypto.randomUUID()}-${file.name || 'review.pdf'}`;
+  const filename = `run-moments/${crypto.randomUUID()}-${file.name || 'photo.jpg'}`;
   const { url } = await put(filename, file, { access: 'public' });
 
   await sql`create extension if not exists pgcrypto`;
-  await sql`create table if not exists reviews (id uuid primary key default gen_random_uuid(), book_id text not null, url text not null, created_at timestamptz default now())`;
-  await sql`insert into reviews (book_id, url) values (${bookId}, ${url})`;
-  return new Response(JSON.stringify({ ok: true, url }) , { headers: { 'content-type': 'application/json' } });
+  await sql`create table if not exists run_moments (id uuid primary key default gen_random_uuid(), url text not null, caption text, created_at timestamptz default now())`;
+  await sql`insert into run_moments (url, caption) values (${url}, ${caption})`;
+  return new Response(JSON.stringify({ ok: true, url }), { headers: { 'content-type': 'application/json' } });
 }
