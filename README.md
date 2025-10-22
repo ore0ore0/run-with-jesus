@@ -1,21 +1,26 @@
-# Run with Jesus (예수님과 함께 뛰어요)
+# Run with Jesus — Deploy-Ready
 
-Vite + React app with whitelist-only access using Neon (Postgres) and session cookies; images & files on Vercel Blob.
+- Vite + React
+- White background, black text
+- Bilingual (EN/KR)
+- Whitelist + Session cookies (Node runtime)
+- Vercel Blob (images/files) + Neon (Postgres) metadata
+- Edge uploads split from Node DB writes
+- Admin-protected whitelist route (x-admin-secret)
+
+## Env
+Copy `.env.example` to Vercel env:
+- `DATABASE_URL` (Neon)
+- `BLOB_READ_WRITE_TOKEN` (Blob)
+- `ADMIN_SECRET` (from .env.example or your own)
 
 ## Deploy
-1. Push to GitHub
-2. Import into Vercel (Framework: Vite, Output: dist)
-3. In Vercel:
-   - Storage → Blob → Create (adds BLOB_READ_WRITE_TOKEN)
-   - Marketplace → Neon (Postgres) → Add to project (adds DATABASE_URL)
-4. Redeploy
+Push to your existing GitHub repo (connected to Vercel).
+Vercel builds with:
+- Build: `npm run build`
+- Output: `dist`
 
-## Dev
+## Whitelist
 ```bash
-npm i
-npm run dev
+curl -X POST "https://run-with-jesus.vercel.app/api/auth/add-whitelist"   -H "content-type: application/json"   -H "x-admin-secret: $ADMIN_SECRET"   -d '{"email":"member@example.com"}'
 ```
-
-## API
-- Auth (Node runtime): `/api/auth/join`, `/api/auth/login`, `/api/auth/check`, `/api/auth/logout`
-- Protected (Edge): `/api/run-moments/upload`, `/api/run-moments/list`, `/api/library/suggest`, `/api/reviews/upload`

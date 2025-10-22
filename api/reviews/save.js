@@ -8,11 +8,11 @@ export default async function handler(req, res) {
   const auth = await requireSessionNode(req);
   if (!auth.ok) return res.status(401).json({ ok: false });
 
-  const { title, author, why } = req.body || {};
-  if (!title || !author || !why) return res.status(400).json({ ok: false, error: 'missing-fields' });
+  const { url, bookId } = req.body || {};
+  if (!url || !bookId) return res.status(400).json({ ok: false, error: 'missing-fields' });
 
   await sql`create extension if not exists pgcrypto`;
-  await sql`create table if not exists book_suggestions (id uuid primary key default gen_random_uuid(), title text not null, author text not null, why text not null, created_at timestamptz default now())`;
-  await sql`insert into book_suggestions (title, author, why) values (${title}, ${author}, ${why})`;
+  await sql`create table if not exists reviews (id uuid primary key default gen_random_uuid(), book_id text not null, url text not null, created_at timestamptz default now())`;
+  await sql`insert into reviews (book_id, url) values (${bookId}, ${url})`;
   return res.json({ ok: true });
 }

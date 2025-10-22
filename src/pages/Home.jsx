@@ -11,7 +11,6 @@ export default function Home() {
   return (
     <div className="pt-16 mx-auto max-w-6xl px-4">
       <div className="grid grid-cols-1 md:grid-cols-[3fr_minmax(0,2fr)] gap-0">
-        {/* RUN 60% */}
         <section className="min-h-[60vh] p-6 font-run" style={{minHeight:'calc(100vh - 4rem)'}}>
           <h1 className="text-3xl md:text-4xl font-bold tracking-tight">RUN</h1>
           <p className="mt-3">Routes, moments, and energy.</p>
@@ -28,30 +27,20 @@ export default function Home() {
           </div>
         </section>
 
-        {/* READ 40% */}
         <section className="separator min-h-[60vh] p-6 font-read" style={{minHeight:'calc(100vh - 4rem)'}}>
           <h1 className="text-3xl md:text-4xl font-bold tracking-tight">READ</h1>
           <p className="mt-3">Books, reflections, and calm.</p>
         </section>
       </div>
 
-      {/* Full-size image modal with download */}
       <Modal open={!!view} onClose={()=>setView(null)} labelledBy="full-run-image">
         {view && (
           <div className="rounded-lg overflow-hidden shadow-lounge bg-white">
             <div className="p-4 flex items-center justify-between">
               <h2 id="full-run-image" className="text-lg font-semibold">{view.caption || 'Run Moment'}</h2>
-              <a
-                href={view.url}
-                download={(view.caption || 'run-moment').replace(/\s+/g,'-') + '.jpg'}
-                className="px-3 py-1 rounded-md font-semibold bg-black/5"
-              >
-                Download
-              </a>
+              <a href={view.url} download={(view.caption || 'run-moment').replace(/\s+/g,'-') + '.jpg'} className="px-3 py-1 rounded-md font-semibold bg-black/5">Download</a>
             </div>
-            <div>
-              <img src={view.url} alt={view.caption || 'Run moment'} className="w-full h-auto max-h-[80vh] object-contain" />
-            </div>
+            <div><img src={view.url} alt={view.caption || 'Run moment'} className="w-full h-auto max-h-[80vh] object-contain" /></div>
           </div>
         )}
       </Modal>

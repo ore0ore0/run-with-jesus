@@ -43,10 +43,14 @@ export default function App() {
 
   return (
     <div>
-      <NavBar lang={lang} setLang={setLang} authed={authed} user={user} onLoginClick={()=>setShowLogin(true)} onJoinClick={()=>setShowJoin(true)} onLogout={async ()=>{ try{ await logout() }catch{} setAuthed(false); setUser(null); navigate('/'); }} />
+      <NavBar lang={lang} setLang={setLang} authed={authed} user={user}
+        onLoginClick={()=>setShowLogin(true)} onJoinClick={()=>setShowJoin(true)}
+        onLogout={async ()=>{ try{ await logout() }catch{} setAuthed(false); setUser(null); navigate('/'); }} />
       {content}
-      <LoginModal open={showLogin} onClose={()=>setShowLogin(false)} lang={lang} onAuthed={(u)=>{ setUser(u); setAuthed(true); navigate('/'); }} onReset={()=>{}} />
-      <JoinModal open={showJoin} onClose={()=>setShowJoin(false)} lang={lang} onJoined={(u)=>{ setUser(u); setAuthed(true); navigate('/'); }} />
+      <LoginModal open={showLogin} onClose={()=>setShowLogin(false)} lang={lang}
+        onAuthed={(u)=>{ setUser(u); setAuthed(true); navigate('/'); }} onReset={()=>{}} />
+      <JoinModal open={showJoin} onClose={()=>setShowJoin(false)} lang={lang}
+        onJoined={(u)=>{ setUser(u); setAuthed(true); navigate('/'); }} />
     </div>
   )
 }

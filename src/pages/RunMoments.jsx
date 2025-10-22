@@ -9,7 +9,6 @@ export default function RunMoments({ lang='en' }) {
   const [items, setItems] = useState([])
 
   useEffect(()=>{ listRunMoments().then(setItems).catch(()=>setItems([])) },[])
-
   const onUploaded = () => listRunMoments().then(setItems)
 
   return (
