@@ -1,4 +1,4 @@
-export const config = { runtime: 'edge' };
+export const config = { runtime: 'nodejs' };
 import { neon } from '@neondatabase/serverless';
 import { requireSession } from '../requireSession.js';
 const sql = neon(process.env.DATABASE_URL);
