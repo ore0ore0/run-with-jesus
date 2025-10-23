@@ -1,7 +1,7 @@
 import React, { useRef, useState } from 'react'
 import Modal from './Modal.jsx'
 import { STR } from '../i18n.js'
-import { uploadPhoto } from '../mockServer.js'
+import { uploadPhoto } from '../mockServer.jsxxxx'
 
 export default function UploadModal({ open, onClose, lang='en', onUploaded }) {
   const t = STR[lang]

@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import Modal from './Modal.jsx'
 import { STR } from '../i18n.js'
-import { joinClub } from '../mockServer.js'
+import { joinClub } from '../mockServer.jsx'
 
 export default function JoinModal({ open, onClose, lang='en', onJoined }) {
   const t = STR[lang]

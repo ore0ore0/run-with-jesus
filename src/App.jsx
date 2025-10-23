@@ -8,7 +8,7 @@ import BookDetail from './pages/BookDetail.jsx'
 import LoginModal from './components/LoginModal.jsx'
 import JoinModal from './components/JoinModal.jsx'
 import { STR } from './i18n.js'
-import { checkSession, logout } from './mockServer.js'
+import { checkSession, logout } from './mockServer.jsx'
 
 export default function App() {
   const [lang, setLang] = useState('en')

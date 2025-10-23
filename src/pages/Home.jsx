@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import Modal from '../components/Modal.jsx'
-import { listRunMoments } from '../mockServer.js'
+import { listRunMoments } from '../mockServer.jsx'
 
 export default function Home() {
   const [items, setItems] = useState([])

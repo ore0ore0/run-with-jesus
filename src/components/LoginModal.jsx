@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import Modal from './Modal.jsx'
 import { STR } from '../i18n.js'
-import { login } from '../mockServer.js'
+import { login } from '../mockServer.jsx'
 
 export default function LoginModal({ open, onClose, lang='en', onAuthed, onReset }) {
   const t = STR[lang]

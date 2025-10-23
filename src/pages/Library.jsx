@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { Link } from 'react-router-dom'
 import { STR } from '../i18n.js'
-import { submitSuggestion } from '../mockServer.js'
+import { submitSuggestion } from '../mockServer.jsx'
 
 const demoShelf = [
   { id: '1', title: 'Norwegian Wood', author: 'Haruki Murakami' },

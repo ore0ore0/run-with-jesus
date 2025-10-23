@@ -1,0 +1,16 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+.backdrop-glass { backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); background-color: rgba(255,255,255,0.6); }
+.separator { border-left: 1px solid #CCCCCC; }
+.modal-backdrop { background: rgba(0,0,0,0.6); }
+.form-shell { @apply p-6 rounded-lg shadow-lounge bg-white border border-black/10; }
+.form-title { @apply text-lg font-semibold flex items-center gap-2; }
+.lock-icon { width: 16px; height: 16px; border: 2px solid #000; border-radius: 2px; position: relative; }
+.lock-icon::before { content: ""; position: absolute; top: -8px; left: 2px; width: 8px; height: 8px; border: 2px solid #000; border-bottom: none; border-radius: 8px 8px 0 0; }
+
+html, body { height: 100%; background-color: #FFFFFF; color: #000000; }
+:root { --fg-primary:#000; --fg-secondary:#000; --fg-muted:#000; --link:#000; }
+body, h1, h2, h3, h4, h5, h6, p, a, span, div, li, dt, dd, figcaption, button, input, textarea, label, small, strong, em { color: #000 !important; }
+a:hover { text-decoration: underline; }

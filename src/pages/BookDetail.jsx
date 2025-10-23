@@ -3,7 +3,7 @@ import { useParams } from 'react-router-dom'
 import { STR } from '../i18n.js'
 import ReviewEditor from '../components/ReviewEditor.jsx'
 import Modal from '../components/Modal.jsx'
-import { uploadReviewFile } from '../mockServer.js'
+import { uploadReviewFile } from '../mockServer.jsx'
 
 const byId = {
   '1': { title: 'Norwegian Wood', author: 'Haruki Murakami' },
