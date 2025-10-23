@@ -2,37 +2,27 @@
 export const config = { runtime: "nodejs" };
 
 import { put } from "@vercel/blob";
-import formidable from "formidable";
-import fs from "fs";
 
-function parseForm(req) {
-  const form = formidable({ multiples: false });
-  return new Promise((resolve, reject) => {
-    form.parse(req, (err, fields, files) => {
-      if (err) reject(err);
-      else resolve({ fields, files });
-    });
-  });
-}
-
+// Read the raw multipart body manually into a Buffer
 export default async function handler(req, res) {
   if (req.method !== "POST") {
     return res.status(405).json({ ok: false, error: "Method Not Allowed" });
   }
 
   try {
-    const { files } = await parseForm(req);
-    const file = files.file;
-
-    if (!file) {
-      return res.status(400).json({ ok: false, error: "No file uploaded" });
+    const chunks = [];
+    for await (const chunk of req) {
+      chunks.push(chunk);
     }
+    const buffer = Buffer.concat(chunks);
 
-    // Read buffer synchronously from temp file
-    const data = fs.readFileSync(file.filepath);
+    // Extract filename from header if present
+    const contentDisposition = req.headers["content-disposition"] || "";
+    const match = /filename="([^"]+)"/.exec(contentDisposition);
+    const fileName = match ? match[1] : `upload-${Date.now()}.bin`;
 
-    // Upload to Vercel Blob
-    const blob = await put(file.originalFilename, data, {
+    // Upload directly from memory buffer
+    const blob = await put(fileName, buffer, {
       access: "public",
       token: process.env.BLOB_READ_WRITE_TOKEN,
     });
