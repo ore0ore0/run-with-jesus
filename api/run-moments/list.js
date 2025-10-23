@@ -1,14 +1,30 @@
-export const config = { runtime: 'nodejs' };
-import { neon } from '@neondatabase/serverless';
-import { requireSessionNode } from '../requireSessionNode.js';
+// api/run-moments/list.js
+import { neon } from "@neondatabase/serverless";
+
 const sql = neon(process.env.DATABASE_URL);
 
 export default async function handler(req, res) {
-  const auth = await requireSessionNode(req);
-  if (!auth.ok) return res.status(401).json({ ok: false });
+  try {
+    // Fetch all uploaded Run Moments
+    const moments = await sql`
+      SELECT id, url, caption, uploaded_by
+      FROM run_moments
+      ORDER BY caption ASC
+    `;
 
-  await sql`create extension if not exists pgcrypto`;
-  await sql`create table if not exists run_moments (id uuid primary key default gen_random_uuid(), url text not null, caption text, created_at timestamptz default now())`;
-  const rows = await sql`select id, url, caption from run_moments order by coalesce(lower(caption), '') asc, created_at desc`;
-  return res.json({ items: rows });
+    // Return results in a consistent structure
+    res.status(200).json({
+      ok: true,
+      moments: moments.map((m) => ({
+        id: m.id,
+        url: m.url,
+        caption: m.caption,
+        uploaded_by: m.uploaded_by,
+      })),
+    });
+  } catch (err) {
+    console.error("❌ Error fetching run moments:", err);
+    res.status(500).json({ ok: false, error: err.message });
+  }
 }
+
