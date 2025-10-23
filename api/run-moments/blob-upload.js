@@ -4,30 +4,6 @@ export const config = { runtime: "nodejs" };
 import { put } from "@vercel/blob";
 import { Buffer } from "buffer";
 
-// Helper: extract filename and content-type from multipart header
-function parseMultipart(req, buffer) {
-  const boundary = req.headers["content-type"].split("boundary=")[1];
-  const parts = buffer.toString().split(`--${boundary}`);
-  const filePart = parts.find(p => p.includes("filename="));
-  if (!filePart) return null;
-
-  // Extract headers
-  const nameMatch = /name="([^"]+)"/.exec(filePart);
-  const filenameMatch = /filename="([^"]+)"/.exec(filePart);
-  const typeMatch = /Content-Type:\s*([^\r\n]+)/.exec(filePart);
-
-  const fileName = filenameMatch ? filenameMatch[1] : `upload-${Date.now()}`;
-  const contentType = typeMatch ? typeMatch[1] : "application/octet-stream";
-
-  // File body starts after the blank line following headers
-  const fileBody = filePart.split("\r\n\r\n")[1];
-  const fileContent = fileBody
-    ? Buffer.from(fileBody.trim().split("\r\n--")[0], "binary")
-    : buffer;
-
-  return { fileName, contentType, fileContent };
-}
-
 export default async function handler(req, res) {
   if (req.method !== "POST") {
     return res.status(405).json({ ok: false, error: "Method Not Allowed" });
@@ -38,24 +14,46 @@ export default async function handler(req, res) {
     for await (const chunk of req) chunks.push(chunk);
     const buffer = Buffer.concat(chunks);
 
-    const fileInfo = parseMultipart(req, buffer);
-    if (!fileInfo) {
-      return res.status(400).json({ ok: false, error: "No file data found" });
+    // --- parse multipart boundary ---
+    const contentType = req.headers["content-type"];
+    const boundaryMatch = contentType && contentType.match(/boundary=(.+)$/);
+    if (!boundaryMatch) {
+      return res.status(400).json({ ok: false, error: "Missing boundary" });
+    }
+    const boundary = `--${boundaryMatch[1]}`;
+
+    // Find where headers end and binary starts
+    const headerEnd = buffer.indexOf("\r\n\r\n");
+    if (headerEnd === -1) {
+      return res.status(400).json({ ok: false, error: "Malformed multipart data" });
     }
 
-    const { fileName, contentType, fileContent } = fileInfo;
+    // Grab header section as text
+    const headerPart = buffer.slice(0, headerEnd).toString();
+    const filenameMatch = /filename="([^"]+)"/.exec(headerPart);
+    const typeMatch = /Content-Type:\s*([^\r\n]+)/.exec(headerPart);
 
-    // Upload to Vercel Blob with correct metadata
-    const blob = await put(fileName, fileContent, {
+    const filename = filenameMatch ? filenameMatch[1] : `upload-${Date.now()}.bin`;
+    const mimeType = typeMatch ? typeMatch[1] : "application/octet-stream";
+
+    // Binary file body starts right after the header end
+    // and ends right before the boundary at the end
+    const fileStart = headerEnd + 4;
+    const boundaryBuf = Buffer.from(`\r\n${boundary}`);
+    const fileEnd = buffer.indexOf(boundaryBuf, fileStart);
+    const fileBuffer = buffer.slice(fileStart, fileEnd);
+
+    // Upload directly to Vercel Blob
+    const blob = await put(filename, fileBuffer, {
       access: "public",
-      contentType,
+      contentType: mimeType,
       token: process.env.BLOB_READ_WRITE_TOKEN,
     });
 
     res.status(200).json({ ok: true, url: blob.url });
-  } catch (err) {
-    console.error("Blob upload error:", err);
-    res.status(500).json({ ok: false, error: err.message });
+  } catch (error) {
+    console.error("Blob upload failed:", error);
+    res.status(500).json({ ok: false, error: error.message });
   }
 }
 
